@@ -1,2 +1,1 @@
-# tfgrid_simulator
-simulate ThreeFold grid
+# omnigrid_simulator
