@@ -4,13 +4,10 @@
 			"path": "."
 		},
 		{
-			"path": "/home/gitpod/codewiki"
+			"path": "~/.vmodules/despiegk/crystallib"
 		},
 		{
-			"path": "/home/gitpod/.vmodules/despiegk/crystallib"
-		},
-		{
-			"path": "/home/gitpod/code/github"
+			"path": "~/code/github"
 		}
 	],
 	"settings": {

@@ -2,10 +2,11 @@
 	
 import simulator
 
-
 fn main() {
 
-
+	println(simulator.extrapolate([0.0,1.0,2.0,5.0,10.0]))
+	
+	panic("s")
 
 	mut sim := simulator.new()
 

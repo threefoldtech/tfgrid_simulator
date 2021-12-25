@@ -3,7 +3,8 @@
 module simulator
 
 
-
+//extrapolate years
+//eg growth [0,1,2,4,10], would give us 4 years starting from 0 going to 10
 pub fn extrapolate(growth []f64) []f64{
 	mut months := []f64{}
 	for year in 1..growth.len{

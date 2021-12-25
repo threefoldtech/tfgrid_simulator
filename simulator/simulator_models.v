@@ -1,5 +1,3 @@
-	
-	
 module simulator
 
 
@@ -23,17 +21,15 @@ pub mut:
 	token_price_end int = 30
 	//env params
 	power_cost_avg f64 = 0.15
+	//rackspace cost per U
 	rackspace_cost_avg f64 = 10
 	//template for the avg node
 	node_template &NodeTemplate
 	//nr of months lockup after adding node
-	farming_initial_lockup int = 6
-	farming_max_lockup int = 24
+	farming_lockup int = 24
 	farming_min_utilizaton int = 30
 	//growth
 	growth_nr_new_nodes_per_month []f64
-
-	
 }
 
 
