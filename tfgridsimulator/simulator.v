@@ -9,7 +9,7 @@ pub fn (mut sim Simulator) run() ?{
 	regional_internets_new := extrapolate_growth(sim.params.regional_internets_nr)
 	for internet_new in regional_internets_new{
 		//this is now many new internets will be added per month
-
+		sim.regionalinternet_new(internet_new)?
 	}
 
 

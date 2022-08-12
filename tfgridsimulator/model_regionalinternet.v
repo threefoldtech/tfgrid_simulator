@@ -6,7 +6,7 @@ pub mut:
 	name string
 	location Location
 	months []NodesBatch
-	params SimulatorParams
+	simulator &Simulator
 	tokenprice  []f32
 	growth  []f32
 }
@@ -19,10 +19,10 @@ pub mut:
 }
 
 
-pub fn regionalinternet_new(nr i16, params SimulatorParams)?RegionalInternet{
+pub fn (mut sim Simulator) (nr int)?RegionalInternet{
 	mut ri := RegionalInternet{
 		nr:nr
-		params:params
+		simulator:&sim
 	}
 	ri.calc()?
 	return ri
@@ -31,5 +31,5 @@ pub fn regionalinternet_new(nr i16, params SimulatorParams)?RegionalInternet{
 //calculate how a regional internet will expand in relation to the arguments given
 pub fn (mut ri RegionalInternet) calc()?{
 
-
+	
 }
