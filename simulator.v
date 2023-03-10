@@ -1,17 +1,13 @@
 module main
 import tfgridsimulator as sim
 
-fn do()?{
-
-	mut currencies := sim.currencies_new()
-	currencies.currency_new(symbol:"eur",usdprice:0.97)?
-	currencies.currency_new(symbol:"aed",usdprice:0.25) ?
+fn do()!{
 
 	//define a template node
 	cpu_amd_gr9 := sim.Component{
 		name: "AMD32"
 		description: "powerful amd cpu"
-		cost:400.0
+		cost:250.0
 		power:70
 		cru:32
 	}	
@@ -25,16 +21,16 @@ fn do()?{
 	mem32 := sim.Component{
 		name: "32GB"
 		description: "memory 32 GB"
-		cost:200.0
+		cost:90.0
 		power:20
 		mru:32
 	}
 	ssd1 := sim.Component{
-		name: "ssd1gb"
+		name: "ssd2gb"
 		description: "SSD of 1 GB"
 		cost:120.0
 		power:5
-		sru:1000
+		sru:2000
 	}			
 
 	//lets populate our template
@@ -43,31 +39,25 @@ fn do()?{
 	node_1u_template.components_add(nr:1,component:cpu_amd_gr9) //add CPU
 	node_1u_template.components_add(nr:4,component:mem32) //add mem
 	node_1u_template.components_add(nr:2,component:ssd1) //add ssd
-	println(node_1u_template)
-
-
+	// println(node_1u_template)
 
 	mut simulator := sim.new(
-		//token prices
-		token_price_start  : 0.05
-		token_price_end  : 10
-		//env params
-		power_cost_avg  : 0.2
-		//rackspace cost per U
-		rackspace_cost_avg  : 10
-		//template for the avg node
-		node_template : node_1u_template
-		//nr of months lockup after adding node
-		farming_lockup  : 24
+		power_cost_avg  : 0.06			//env params
+		rackspace_cost_avg  : 10		//rackspace cost per U
+		farming_lockup  : 24 			//nr of months lockup after adding node
 		farming_min_utilizaton  : 30
-		//growth
-		regional_internets_nr : [1,5,20,50,500,1000]  //nr of regional internets, first month is start position
-		regional_internet_growth: [0,10,20,50,100,100] //percentage of nodes which are installed per regional internet over years
-		growth_factor: [20,30,50,100,100,100] //growth in relation to above
-	)?
+		chi_price_usd : '1:0.1,12:0.2,24:0.5,36:3,60:10'
+	)!
 
-	println(simulator)
-	
+	mut ri:= simulator.regionalinternet_add("znz")!
+
+	//specify how many nodes are added per month
+	ri.nodes_add(template:node_1u_template, growth:'3:0,4:50,12:200,24:1000,60:3000')!
+
+	simulator.calc()!
+
+	w:=ri.sheet.wiki()!
+	println(w)
 
 }
 

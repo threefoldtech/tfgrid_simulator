@@ -1,11 +1,11 @@
 module main
 import tfgridsimulator as sim
 
-fn do()?{
+fn do()!{
 
 	mut currencies := sim.currencies_new()
-	currencies.currency_new(symbol:"eur",usdprice:0.97)?
-	currencies.currency_new(symbol:"aed",usdprice:0.25) ?
+	currencies.currency_new(symbol:"eur",usdprice:0.97)!
+	currencies.currency_new(symbol:"aed",usdprice:0.25)!
 
 	//define a template node
 	cpu_amd_gr9 := sim.Component{
@@ -45,8 +45,6 @@ fn do()?{
 	node_1u_template.components_add(nr:2,component:ssd1) //add ssd
 	println(node_1u_template)
 
-
-
 	mut simulator := sim.new(
 		//token prices
 		token_price_start  : 0.05
@@ -55,18 +53,14 @@ fn do()?{
 		power_cost_avg  : 0.2
 		//rackspace cost per U
 		rackspace_cost_avg  : 10
-		//template for the avg node
-		node_template : node_1u_template
 		//nr of months lockup after adding node
 		farming_lockup  : 24
 		farming_min_utilizaton  : 30
-		//growth
-		regional_internets_nr : [1,5,20,50,500,1000]  //nr of regional internets, first month is start position
-		regional_internet_growth: [0,10,20,50,100,100] //percentage of nodes which are installed per regional internet over years
-		growth_factor: [20,30,50,100,100,100] //growth in relation to above
-	)?
+	)!
 
 	println(simulator)
+
+	// simulator.run()!
 	
 
 }

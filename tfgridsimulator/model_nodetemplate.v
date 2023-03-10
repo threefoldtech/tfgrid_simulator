@@ -53,11 +53,11 @@ pub fn (mut nt NodeTemplate) components_add (cg ComponentGroupArgs){
 		nr:cg.nr
 		component:cg.component
 	}
-	nt.calculate()
+	nt.calc()
 }
 
 //recalculate the totals of the template
-fn (mut nt NodeTemplate) calculate (){
+fn (mut nt NodeTemplate) calc (){
 	mut fc := FarmingCapacity{}
 	for cg in nt.components{
 		fc.cost += cg.component.cost * cg.nr
@@ -68,7 +68,7 @@ fn (mut nt NodeTemplate) calculate (){
 		fc.resourceunits.hru += cg.component.hru * cg.nr
 		fc.resourceunits.sru += cg.component.sru * cg.nr
 	}
-	fc.cloudunits = fc.resourceunits.cloudunits()
+	fc.cloudunits = cloudunits_calc(fc.resourceunits) //calculate the cloudunits
 	nt.capacity = fc
 }
 

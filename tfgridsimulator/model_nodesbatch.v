@@ -2,44 +2,57 @@
 	
 module tfgridsimulator
 
-
+import freeflowuniverse.crystallib.calc
 
 //X nr of nodes who are added in 1 month
+[params]
 struct NodesBatch{
 pub mut:	
-	node_template NodeTemplate
+	node_template &NodeTemplate [str: skip]
 	nrnodes int
 	start_month int
-	status NodeStatus
-	tokens_month f64
+	nrmonths int
+	regional_internet &RegionalInternet [str: skip]
+}
+
+struct NBCalc{
+pub mut:	
+	power_kwh int
+	tokens_farmed f64
+	rackspace f64
+	power_cost f64
+	rackspace_cost f64
+	hw_cost f64
+	support_cost f64
+	nrnodes f64
 }
 
 
-enum NodeStatus{
-	new
-	active
-	down
+fn (mut nb NodesBatch) calc(month int)!NBCalc{
+
+
+	power_kwh:=nb.node_template.capacity.power*24*30/1000 * nb.nrnodes
+	rackspace:=nb.node_template.capacity.rackspace * nb.nrnodes
+	params:=nb.regional_internet.simulator.params
+	tokens_farmed:=nb.regional_internet.token_farming(nb.node_template, month )!
+
+	if month < nb.start_month{
+		return NBCalc{}
+	}
+	if month > nb.start_month + nb.nrmonths{
+		return NBCalc{}
+	}
+
+	nbc:=NBCalc{
+		power_kwh: int(power_kwh)
+		power_cost: power_kwh * params.power_cost_avg
+		rackspace: rackspace
+		rackspace_cost: rackspace * params.rackspace_cost_avg
+		hw_cost: nb.node_template.capacity.cost / 6 / 12 * nb.nrnodes			//over 6 years
+		support_cost: params.support_cost_node + nb.node_template.capacity.cost * 0.02 / 12 * nb.nrnodes  //2% of HW has to be replaced
+		tokens_farmed: tokens_farmed * nb.nrnodes	
+		nrnodes: nb.nrnodes
+	}
+
+	return nbc
 }
-
-// //how much return do we want to give to a farmer if the tokens would not go up in value?
-// fn (mut node NodesBatch) return_no_token_upside(mut simulator &Simulator, month f64) f64 {
-// 	//between start & end, interpolated
-// 	return (simulator.params.mult_end - simulator.params.mult_start)/simulator.params.nrmonths * month
-
-// }
-
-
-// //month where the initialization starts
-// fn  (mut simulator Simulator) add_nodes_for_1_month( nrnodes f64)? {
-// 	start_month := simulator.months.len
-// 	mut nodes_added := NodesBatch{
-// 			nrnodes: nrnodes,
-// 			start_month:start_month
-// 		}
-// 	//the logic for minting
-// 	nodes_added.tokens_month = nodes_added.return_no_token_upside(mut simulator, start_month) * simulator.params.node_template.investment_cost / simulator.params.nrmonths
-// 	nodes_added.rackspace_cost_month = simulator.params.rackspace_cost_avg * simulator.params.node_template.rackspace
-// 	nodes_added.power_cost_month = simulator.params.power_cost_avg * simulator.params.node_template.power_watt
-// 	simulator.months << nodes_added
-// }
-

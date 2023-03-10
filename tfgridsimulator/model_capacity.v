@@ -26,7 +26,7 @@ pub mut:
 	
 }
 
-//this is the calucation as result of defining the node template
+//this is the calculation as result of defining the node template
 [heap]
 pub struct FarmingCapacity{
 pub mut:	
@@ -39,7 +39,7 @@ pub mut:
 	rackspace f64
 }
 
-pub fn (mut ru ResourceUnits) cloudunits() CloudUnits {
+fn cloudunits_calc(ru ResourceUnits) CloudUnits {
 	mut cu := 0.0
 	mut su := 0.0
 	cu = math.min((ru.mru - 1) / 4, ru.cru * 4 / 2)
