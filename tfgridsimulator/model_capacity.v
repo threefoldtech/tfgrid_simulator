@@ -20,9 +20,9 @@ pub mut:
 //https://library.threefold.me/info/threefold/#/tfgrid/farming/cloudunits
 pub struct CloudUnits{
 pub mut:
-	cu f64		//1 logical core
-	su f64		//1 GB of memory
-	nu f64		//1 GB of HD
+	cu f64		
+	su f64		
+	nu f64		//GB per month
 	
 }
 

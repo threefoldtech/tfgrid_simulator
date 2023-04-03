@@ -12,6 +12,7 @@ pub mut:
 	nrnodes int
 	start_month int
 	nrmonths int
+	hw_cost f64
 	regional_internet &RegionalInternet [str: skip]
 }
 
@@ -30,11 +31,12 @@ pub mut:
 
 fn (mut nb NodesBatch) calc(month int)!NBCalc{
 
+	mut ri:=nb.regional_internet
 
 	power_kwh:=nb.node_template.capacity.power*24*30/1000 * nb.nrnodes
 	rackspace:=nb.node_template.capacity.rackspace * nb.nrnodes
-	params:=nb.regional_internet.simulator.params
-	tokens_farmed:=nb.regional_internet.token_farming(nb.node_template, month )!
+	params:=ri.simulator.params
+	tokens_farmed:=ri.token_farming(nb.node_template, month )!
 
 	if month < nb.start_month{
 		return NBCalc{}
@@ -42,14 +44,23 @@ fn (mut nb NodesBatch) calc(month int)!NBCalc{
 	if month > nb.start_month + nb.nrmonths{
 		return NBCalc{}
 	}
+	
+	mut cost_power_unit_row := ri.sheet.row_get("cost_power_unit")!
+	mut rackspace_cost_unit_row := ri.sheet.row_get("rackspace_cost_unit")!
+	mut support_cost_node_row := ri.sheet.row_get("support_cost_node")!
+	
+
+	cost_power_unit:=cost_power_unit_row.cells[month].val
+	rackspace_cost_unit:=rackspace_cost_unit_row.cells[month].val
+	support_cost_node:=support_cost_node_row.cells[month].val
 
 	nbc:=NBCalc{
 		power_kwh: int(power_kwh)
-		power_cost: power_kwh * params.power_cost_avg
+		power_cost: power_kwh * cost_power_unit
 		rackspace: rackspace
-		rackspace_cost: rackspace * params.rackspace_cost_avg
-		hw_cost: nb.node_template.capacity.cost / 6 / 12 * nb.nrnodes			//over 6 years
-		support_cost: params.support_cost_node + nb.node_template.capacity.cost * 0.02 / 12 * nb.nrnodes  //2% of HW has to be replaced
+		rackspace_cost: rackspace * rackspace_cost_unit
+		hw_cost: nb.hw_cost / 6 / 12 * nb.nrnodes			//over 6 years
+		support_cost: support_cost_node + nb.node_template.capacity.cost * 0.02 / 12 * nb.nrnodes  //2% of HW has to be replaced
 		tokens_farmed: tokens_farmed * nb.nrnodes	
 		nrnodes: nb.nrnodes
 	}
