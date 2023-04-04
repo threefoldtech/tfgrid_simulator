@@ -103,6 +103,6 @@ pub fn new(args SimulatorInputArgs)! Simulator {
 
 
 	println(s)
-	if true{panic("sdsd")}
+	// if true{panic("sdsd")}
 	return s
 }
