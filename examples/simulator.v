@@ -1,5 +1,5 @@
 module main
-import tfgridsimulator as sim
+import threefoldtech.tfgridsimulator as sim
 import os
 
 const testpath = os.dir(@FILE) + '/inputdata'

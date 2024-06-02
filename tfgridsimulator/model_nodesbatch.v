@@ -2,7 +2,7 @@
 	
 module tfgridsimulator
 
-import freeflowuniverse.crystallib.calc
+// import freeflowuniverse.crystallib.calc
 
 //X nr of nodes who are added in 1 month
 [params]
@@ -35,7 +35,7 @@ fn (mut nb NodesBatch) calc(month int)!NBCalc{
 
 	power_kwh:=nb.node_template.capacity.power*24*30/1000 * nb.nrnodes
 	rackspace:=nb.node_template.capacity.rackspace * nb.nrnodes
-	params:=ri.simulator.params
+	// params:=ri.simulator.params
 	tokens_farmed:=ri.token_farming(nb.node_template, month )!
 
 	if month < nb.start_month{
