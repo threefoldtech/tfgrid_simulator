@@ -4,16 +4,11 @@
 			"path": "."
 		},
 		{
-			"path": "~/.vmodules/despiegk/crystallib"
-		},
-		{
-			"path": "~/code/github"
+			"path": "~/code/github/freeflowuniverse/crystallib"
 		}
 	],
 	"settings": {
 		"v.pathToExecutableFile": "/usr/local/bin/v",
-		"v.vls.enable": true,
-		"v.vls.customPath": "/usr/local/bin/vls",
 		"emeraldwalk.runonsave": {
 			"commands": [
 				{

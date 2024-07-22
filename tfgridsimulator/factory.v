@@ -1,6 +1,6 @@
 	
 module tfgridsimulator
-import freeflowuniverse.crystallib.actionsparser
+import freeflowuniverse.crystallib.core.actionsparser
 
 //no need to change the defaults, give text or path
 [params]
