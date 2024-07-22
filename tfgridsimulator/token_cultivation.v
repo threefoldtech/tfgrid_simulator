@@ -1,4 +1,3 @@
-
 module tfgridsimulator
 
 // //calculates the token retur for farming
@@ -14,7 +13,6 @@ module tfgridsimulator
 
 // 	chi_price_usd:=ri.sheet.row_get("chi_price_usd")!
 // 	mut chi_price_usd_now := chi_price_usd.cells[month].val
-
 
 // 	//https://docs.google.com/spreadsheets/d/1KQGxaQuMOdy16H68SeSaWYqOyblzvSHvAcpcCdyMp6w/edit#gid=111700120
 
