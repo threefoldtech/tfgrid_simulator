@@ -40,8 +40,7 @@ fn (mut nb NodesBatch) calc(month int) !NBCalc {
 		return NBCalc{}
 	}
 
-	println('ri ${ri.sheet}')
-	mut cost_power_unit_row := ri.sheet.row_get('cost_power_unit')!
+	mut cost_power_unit_row := ri.sheet.row_get('cost_power')!
 	mut rackspace_cost_unit_row := ri.sheet.row_get('rackspace_cost_unit')!
 	mut support_cost_node_row := ri.sheet.row_get('support_cost_node')!
 

@@ -105,9 +105,5 @@ pub fn new(args SimulatorInputArgs) !Simulator {
 		ri.calc()!
 	}
 
-	println(s)
-	if true {
-		panic('sdsd')
-	}
 	return s
 }
